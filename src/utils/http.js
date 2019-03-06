@@ -21,13 +21,10 @@ export default class http {
     }
     return this.request(options)
   }
-  post (url, data, query) {
+  post (url, data) {
     var postUrl = this.baseApi
     if (url) {
-      postUrl += url
-    }
-    if (query) {
-      postUrl += query
+      postUrl += '?' + url
     }
     var options = {
       url: postUrl,
@@ -45,15 +42,15 @@ export default class http {
     var promise = new Promise((resolve) => {
       axios(options)
         .then((result) => {
-          if (typeof result.data.return_code === 'undefined') {
-            resolve({return_code: '5000', return_message: '系统出错啦'})
+          if (typeof result.data.status === 'undefined') {
+            resolve({status: '5000', msg: '系统出错啦'})
           } else {
             resolve(result.data)
           }
         })
         .catch((error) => {
           console.log(error)
-          resolve({return_code: '6000', return_message: '网络出错啦'})
+          resolve({status: '6000', msg: '网络出错啦'})
         })
     })
     return promise

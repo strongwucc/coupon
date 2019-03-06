@@ -1,8 +1,5 @@
 export default {
-  queryMyCarFee: 'queryMycarFee',
-  operationPoint: 'operationPoint',
-  wxPay: 'parkingFee/toEtonePay',
-  queryOrderDetail: 'queryParkingFeeOrder',
-  queryPointDetail: 'queryParkinginfoByOperationScoreId',
-  queryParkingRule: 'queryParkingplaceRule'
+  couponInfo: 'ticket-info.html',
+  receiveCheck: 'ticket-check.html',
+  couponReceive: 'ticket-receive.html'
 }

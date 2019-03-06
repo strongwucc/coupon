@@ -12,13 +12,13 @@ let oauthUrl = 'http://wxgw.yklsh.etonepay.com/authorize?etone_id=yt6eb45ebc3375
 let baseRedirectUrl = 'http://' + window.location.host + '/#'
 
 if (process.env.NODE_ENV === 'development') {
-  rootUrl = 'http://yanshi.yklsq.etonepay.com'
-  baseUrl = rootUrl + '/api-o2o/member/'
+  rootUrl = 'http://localhost:8081'
+  baseUrl = rootUrl + '/shopex/'
   baseRedirectUrl = 'http://' + window.location.host + '/#'
 } else if (process.env.NODE_ENV === 'production') {
-  rootUrl = 'http://yanshi.yklsq.etonepay.com'
-  baseUrl = rootUrl + '/api-o2o/member/'
-  baseRedirectUrl = 'http://' + window.location.host + '/parking/#'
+  rootUrl = 'http://localhost:8081'
+  baseUrl = rootUrl + '/shopex/'
+  baseRedirectUrl = 'http://' + window.location.host + '/coupon/#'
 }
 
 export {
