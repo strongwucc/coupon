@@ -95,27 +95,30 @@ export default {
     }
   },
   mounted () {
-    this.copyElement = new Clipboard(this.$refs.copy)
+    // this.copyElement = new Clipboard(this.$refs.copy)
   },
   destroyed () {
   },
   methods: {
     copyLink () {
       let _this = this
-      _this.copyElement.on('success', function () {
-        _this.$vux.toast.show({
-          type: 'text',
-          text: '复制成功！',
-          width: '200px',
-          position: 'middle'
+      _this.$nextTick(() => {
+        _this.copyElement = new Clipboard(_this.$refs.copy)
+        _this.copyElement.on('success', function () {
+          _this.$vux.toast.show({
+            type: 'text',
+            text: '复制成功！',
+            width: '200px',
+            position: 'middle'
+          })
         })
-      })
-      _this.copyElement.on('error', function () {
-        _this.$vux.toast.show({
-          type: 'text',
-          text: '复制失败！',
-          width: '200px',
-          position: 'middle'
+        _this.copyElement.on('error', function () {
+          _this.$vux.toast.show({
+            type: 'text',
+            text: '复制失败！',
+            width: '200px',
+            position: 'middle'
+          })
         })
       })
     },
@@ -158,14 +161,14 @@ export default {
         justify-content: flex-start;
         align-items: center;
         .label {
-          width: 48px;
+          width: 78px;
           height:17px;
           font-size:12px;
           font-weight:400;
           line-height:17px;
           color:rgba(153,153,153,1);
           text-align: left;
-          margin-right: 30px;
+          /*margin-right: 30px;*/
         }
         .content {
           height:18px;
@@ -173,11 +176,11 @@ export default {
           font-weight:600;
           line-height:18px;
           color:rgba(51,51,51,1);
-          width: 239px;
+          width: 235px;
           text-align: left;
         }
         .action {
-          width:24px;
+          /*width:24px;*/
           height:17px;
           font-size:12px;
           font-weight:400;

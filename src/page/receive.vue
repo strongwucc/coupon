@@ -219,7 +219,7 @@ export default {
           color:rgba(51,51,51,1);
         }
         .more {
-          margin-left: 112px;
+          /*margin-left: 112px;*/
           height: 24px;
           width: 24px;
           text-align: center;
@@ -237,10 +237,13 @@ export default {
       }
       .explain-area {
         .label {
-          margin-right: 21px;
+          /*margin-right: 21px;*/
+          width: 45px;
+          text-align: left;
         }
         margin-top: 10px;
         .content {
+          width: 81px;
           height: 24px;
           display: flex;
           align-items: center;
@@ -251,6 +254,7 @@ export default {
         }
         .rec-explain {
           margin-left: 14px;
+          width: 186px;
         }
       }
     }
@@ -267,7 +271,9 @@ export default {
         font-weight:400;
         line-height:17px;
         color:rgba(153,153,153,1);
-        margin-right: 26px;
+        /*margin-right: 26px;*/
+        width: 50px;
+        text-align: left;
       }
       .content {
         width: 273px;
