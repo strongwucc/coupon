@@ -120,6 +120,7 @@ export default {
     },
     checkMethod: function (deliveryMethod) {
       this.delivery_method = deliveryMethod
+      this.hideMethods()
     },
     register: function () {
       if (this.owner_name === '') {

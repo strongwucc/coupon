@@ -81,7 +81,7 @@
         <div class="list">
           <div class="item" :class="{active: item === gift}" v-for="(item, itemIndex) in info.gifts" :key="itemIndex" @click.stop="checkGift(item)">{{item}}</div>
         </div>
-        <div class="confirm-btn" @click.stop="receive">确定</div>
+        <div class="confirm-btn" @click.stop="confirmGift">确定</div>
       </div>
     </transition>
   </div>
@@ -142,17 +142,19 @@ export default {
       this.gift = gift
     },
     receive: function () {
+      if (this.info.gifts.length > 0 && this.gift === '') {
+        this.$vux.toast.show({
+          type: 'text',
+          text: '请先选择礼品',
+          width: '200px',
+          position: 'middle'
+        })
+        return false
+      }
+      this.$router.push({name: 'register', params: {itemId: this.itemId, gift: this.gift}})
+    },
+    confirmGift: function () {
       this.giftVisible = false
-      // if (this.info.gifts.length > 0 && this.gift === '') {
-      //   this.$vux.toast.show({
-      //     type: 'text',
-      //     text: '请先选择礼品',
-      //     width: '200px',
-      //     position: 'middle'
-      //   })
-      //   return false
-      // }
-      // this.$router.push({name: 'register', params: {itemId: this.itemId, gift: this.gift}})
     },
     review: function () {
       this.$router.push({name: 'order', params: {itemId: this.itemId}})
