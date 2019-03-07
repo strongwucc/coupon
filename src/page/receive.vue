@@ -22,7 +22,7 @@
         <div class="more" @click.stop="showExplains"><img src="../assets/img/receive/icon-more@2x.png"/></div>
       </div>
     </div>
-    <div class="gifts" v-if="info.gifts.length > 0">
+    <div class="gifts" v-if="info.status === '0' && info.gifts.length > 0">
       <div class="label">已选</div>
       <div class="content" v-if="gift">{{gift}}</div>
       <div class="content" v-else>请选择</div>
@@ -38,15 +38,18 @@
     </div>
     <div class="padding-area"></div>
     <div class="action-area">
-      <div class="contact">
+      <div class="contact" @click.stop="contact">
         <img class="icon" src="../assets/img/receive/icon-contact@2x.png"/>
         <span class="txt">联系客服</span>
       </div>
-      <div class="button" @click.stop="receive">
+      <div class="button" v-if="info.status === '0'" @click.stop="receive">
         立即兑换
       </div>
+      <div class="button" v-else-if="info.order_id" @click.stop="review">
+        查看订单
+      </div>
     </div>
-    <div class="mask" v-show="explainVisible || giftVisible" @touchmove.prevent></div>
+    <div class="mask" v-show="explainVisible || giftVisible" @touchmove.prevent @click.stop="explainVisible=false;giftVisible=false"></div>
     <transition name="slide">
       <div class="pop-explains" v-show="explainVisible" @touchmove.prevent>
         <div class="head-title">
@@ -78,7 +81,7 @@
         <div class="list">
           <div class="item" :class="{active: item === gift}" v-for="(item, itemIndex) in info.gifts" :key="itemIndex" @click.stop="checkGift(item)">{{item}}</div>
         </div>
-        <div class="confirm-btn" @click.stop="receive">确定兑换</div>
+        <div class="confirm-btn" @click.stop="receive">确定</div>
       </div>
     </transition>
   </div>
@@ -93,6 +96,7 @@ export default {
     return {
       itemId: '',
       info: {
+        gifts: []
       },
       gift: '',
       explainVisible: false,
@@ -109,6 +113,9 @@ export default {
       this.$http.post(this.API.couponInfo, {item_id: this.itemId}).then(res => {
         if (res.status === '0000') {
           this.info = res.data.ticket
+          if (this.info.gifts.length > 0) {
+            this.gift = this.info.gifts[0]
+          }
         }
       })
     }
@@ -135,16 +142,23 @@ export default {
       this.gift = gift
     },
     receive: function () {
-      if (this.info.gifts.length > 0 && this.gift === '') {
-        this.$vux.toast.show({
-          type: 'text',
-          text: '请先选择礼品',
-          width: '200px',
-          position: 'middle'
-        })
-        return false
-      }
-      this.$router.push({name: 'register', params: {itemId: this.itemId, gift: this.gift}})
+      this.giftVisible = false
+      // if (this.info.gifts.length > 0 && this.gift === '') {
+      //   this.$vux.toast.show({
+      //     type: 'text',
+      //     text: '请先选择礼品',
+      //     width: '200px',
+      //     position: 'middle'
+      //   })
+      //   return false
+      // }
+      // this.$router.push({name: 'register', params: {itemId: this.itemId, gift: this.gift}})
+    },
+    review: function () {
+      this.$router.push({name: 'order', params: {itemId: this.itemId}})
+    },
+    contact () {
+      window.location.href = 'tel://400-872-5559'
     }
   }
 }
@@ -169,7 +183,7 @@ export default {
     .coupon-image {
       height: 194px;
       img {
-        height: 100%;
+        width: 100%;
       }
     }
     .base-info {

@@ -32,7 +32,7 @@
         <div class="label">备注</div>
         <div class="input"><input v-model="mark_text"/></div>
       </div>
-      <div class="button">
+      <div class="button" @click.stop="register">
         提交
       </div>
     </div>
@@ -54,6 +54,7 @@
 
 <script>
 import {PopupPicker} from 'vux'
+import Valid from '../utils/valid'
 export default {
   name: 'register',
   components: {PopupPicker},
@@ -69,7 +70,8 @@ export default {
       delivery_method: 0,
       addr: '',
       mark_text: '',
-      methodVisible: false
+      methodVisible: false,
+      loading: false
     }
   },
   computed: {
@@ -83,6 +85,8 @@ export default {
       this.$http.post(this.API.receiveCheck, {item_id: this.itemId, gift: this.gift}).then(res => {
         if (res.status === '0000') {
           this.info = res.data.ticket
+        } else if (res.status === '4003') {
+          this.$router.push({name: 'receive', params: {itemId: this.itemId}})
         } else {
           this.$vux.toast.show({
             type: 'text',
@@ -116,6 +120,80 @@ export default {
     },
     checkMethod: function (deliveryMethod) {
       this.delivery_method = deliveryMethod
+    },
+    register: function () {
+      if (this.owner_name === '') {
+        this.$vux.toast.show({
+          type: 'text',
+          text: '请输入姓名',
+          width: '200px',
+          position: 'middle'
+        })
+        return false
+      }
+
+      if (Valid.check_mobile(this.owner_mobile) === false) {
+        this.$vux.toast.show({
+          type: 'text',
+          text: '手机号格式不正确',
+          width: '200px',
+          position: 'middle'
+        })
+        return false
+      }
+
+      if (this.delivery_method === 1 && this.addr === '') {
+        this.$vux.toast.show({
+          type: 'text',
+          text: '请输入配送地址',
+          width: '200px',
+          position: 'middle'
+        })
+        return false
+      }
+
+      if (this.loading) {
+        return false
+      }
+
+      let postData = {
+        item_id: this.itemId,
+        owner_name: this.owner_name,
+        owner_mobile: this.owner_mobile,
+        delivery_method: this.delivery_method,
+        addr: this.addr,
+        mark_text: this.mark_text,
+        gift: this.gift
+      }
+
+      this.loading = true
+
+      this.$vux.loading.show()
+
+      this.$http.post(this.API.couponReceive, postData).then(res => {
+        this.$vux.loading.hide()
+        this.loading = false
+        if (res.status === '0000') {
+          this.$vux.toast.show({
+            type: 'text',
+            text: '恭喜您，兑换成功',
+            width: '200px',
+            position: 'middle'
+          })
+          let vm = this
+          setTimeout(() => {
+            vm.$router.push({name: 'success', params: {itemId: this.itemId}})
+          }, 2000)
+        } else {
+          this.$vux.toast.show({
+            type: 'text',
+            text: res.msg,
+            width: '200px',
+            position: 'middle'
+          })
+          return false
+        }
+      })
     }
   }
 }
@@ -140,7 +218,7 @@ export default {
     .coupon-image {
       height: 194px;
       img {
-        height: 100%;
+        width: 100%;
       }
     }
     .register-form {
@@ -160,11 +238,19 @@ export default {
           color:rgba(102,102,102,1);
         }
         .input {
+          width: 271px;
+          height: 40px;
+          border:1px solid rgba(204,204,204,1);
+          border-radius:4px;
+          display: flex;
+          padding-left: 16px;
           input {
-            width: 271px;
-            height: 40px;
-            border:1px solid rgba(204,204,204,1);
-            border-radius:4px;
+            width: 251px;
+            height: 100%;
+            font-size:14px;
+            font-weight:500;
+            line-height:20px;
+            color:rgba(51,51,51,1);
           }
         }
       }
