@@ -14,7 +14,7 @@
       </div>
       <div class="owner_mobile">
         <div class="label">手机号</div>
-        <div class="input"><input v-model="owner_mobile"/></div>
+        <div class="input"><input type="tel" v-model="owner_mobile"/></div>
       </div>
       <div class="delivery_method">
         <div class="label">领取方式</div>
@@ -40,7 +40,7 @@
     <transition name="slide">
       <div class="pop-methods" v-show="methodVisible" @touchmove.prevent>
         <div class="head-title">
-          <div class="txt">选择商品</div>
+          <div class="txt">选择领取方式</div>
           <div class="close" @click.stop="hideMethods"><img src="../assets/img/receive/icon-close@2x.png"/></div>
         </div>
         <div class="list">
@@ -175,16 +175,17 @@ export default {
         this.$vux.loading.hide()
         this.loading = false
         if (res.status === '0000') {
-          this.$vux.toast.show({
-            type: 'text',
-            text: '恭喜您，兑换成功',
-            width: '200px',
-            position: 'middle'
-          })
-          let vm = this
-          setTimeout(() => {
-            vm.$router.push({name: 'success', params: {itemId: this.itemId}})
-          }, 2000)
+          this.$router.push({name: 'success', params: {itemId: this.itemId}})
+          // this.$vux.toast.show({
+          //   type: 'text',
+          //   text: '恭喜您，兑换成功',
+          //   width: '200px',
+          //   position: 'middle'
+          // })
+          // let vm = this
+          // setTimeout(() => {
+          //   vm.$router.push({name: 'success', params: {itemId: this.itemId}})
+          // }, 2000)
         } else {
           this.$vux.toast.show({
             type: 'text',

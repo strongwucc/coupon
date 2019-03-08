@@ -4,20 +4,25 @@
       <img :src="info.ticket_image"/>
     </div>
     <div class="base-info">
-      <div class="title">{{info.ticket_name}}</div>
+      <div class="title">
+        <div class="coupon-name">{{info.ticket_name}}</div>
+        <div class="coupon-status">已兑换</div>
+      </div>
       <div class="period-validity">
         <div class="label">时间</div>
         <div class="content">{{info.time_begin}}—{{info.time_end}}</div>
       </div>
-      <div class="explain-area">
+      <div class="explain-area" v-if="info.ticket_intro || info.pick_intro">
         <div class="label">说明</div>
-        <div class="content act-explain">
-          <img class="icon" src="../assets/img/receive/icon-biaoqian@2x.png"/>
-          <span class="txt">活动说明</span>
-        </div>
-        <div class="content rec-explain">
-          <img class="icon" src="../assets/img/receive/icon-biaoqian@2x.png"/>
-          <span class="txt">自提说明</span>
+        <div class="column">
+          <div class="content act-explain" v-if="info.ticket_intro">
+            <img class="icon" src="../assets/img/receive/icon-biaoqian@2x.png"/>
+            <span class="txt">活动说明</span>
+          </div>
+          <div class="content rec-explain" v-if="info.pick_intro">
+            <img class="icon" src="../assets/img/receive/icon-biaoqian@2x.png"/>
+            <span class="txt">自提说明</span>
+          </div>
         </div>
         <div class="more" @click.stop="showExplains"><img src="../assets/img/receive/icon-more@2x.png"/></div>
       </div>
@@ -56,17 +61,17 @@
           <div class="txt">说明</div>
           <div class="close" @click.stop="hideExplains"><img src="../assets/img/receive/icon-close@2x.png"/></div>
         </div>
-        <div class="act">
+        <div class="act" v-if="info.ticket_intro">
           <div class="left"><img src="../assets/img/receive/icon-biaoqian@2x.png"/></div>
           <div class="right">
             <div class="title">活动说明</div>
             <div class="content" v-html="info.ticket_intro"></div>
           </div>
         </div>
-        <div class="rec">
+        <div class="rec" v-if="info.pick_intro">
           <div class="left"><img src="../assets/img/receive/icon-biaoqian@2x.png"/></div>
           <div class="right">
-            <div class="title">提现说明</div>
+            <div class="title">自提说明</div>
             <div class="content" v-html="info.pick_intro"></div>
           </div>
         </div>
@@ -100,7 +105,8 @@ export default {
       },
       gift: '',
       explainVisible: false,
-      giftVisible: false
+      giftVisible: false,
+      isConfirmGift: true
     }
   },
   computed: {
@@ -115,6 +121,7 @@ export default {
           this.info = res.data.ticket
           if (this.info.gifts.length > 0) {
             this.gift = this.info.gifts[0]
+            this.isConfirmGift = false
           }
         }
       })
@@ -142,6 +149,10 @@ export default {
       this.gift = gift
     },
     receive: function () {
+      if (this.isConfirmGift === false) {
+        this.showGifts()
+        return false
+      }
       if (this.info.gifts.length > 0 && this.gift === '') {
         this.$vux.toast.show({
           type: 'text',
@@ -155,6 +166,7 @@ export default {
     },
     confirmGift: function () {
       this.giftVisible = false
+      this.isConfirmGift = true
     },
     review: function () {
       this.$router.push({name: 'order', params: {itemId: this.itemId}})
@@ -182,6 +194,7 @@ export default {
   }
   .receive-page {
     height: 100%;
+    background:rgba(246,246,246,1);
     .coupon-image {
       height: 194px;
       img {
@@ -194,12 +207,27 @@ export default {
       height: 114px;
       padding: 16px 13px 11px 15px;
       .title {
-        height: 24px;
-        font-size:17px;
-        font-weight:600;
-        line-height:24px;
-        color:rgba(51,51,51,1);
-        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        .coupon-name {
+          height: 24px;
+          width: 292px;
+          font-size:17px;
+          font-weight:bold;
+          line-height:24px;
+          color:rgba(51,51,51,1);
+          text-align: left;
+          overflow: hidden;
+        }
+        .coupon-status {
+          width:55px;
+          height:24px;
+          background:rgba(240,240,240,1);
+          border-radius:20px;
+          font-size:10px;
+          line-height:24px;
+          color:rgba(102,102,102,1);
+        }
       }
       .label {
         height:17px;
@@ -219,16 +247,6 @@ export default {
           line-height:18px;
           color:rgba(51,51,51,1);
         }
-        .more {
-          /*margin-left: 112px;*/
-          height: 24px;
-          width: 24px;
-          text-align: center;
-          line-height: 24px;
-          img {
-            height: 100%;
-          }
-        }
       }
       .period-validity {
         margin-top: 12px;
@@ -237,25 +255,37 @@ export default {
         }
       }
       .explain-area {
+        justify-content: space-between;
         .label {
           /*margin-right: 21px;*/
           width: 45px;
           text-align: left;
         }
         margin-top: 10px;
-        .content {
-          width: 81px;
-          height: 24px;
+        .column {
           display: flex;
-          align-items: center;
-          .icon {
-            width: 24px;
+          justify-content: flex-start;
+          width: 278px;
+          .content {
+            margin-right: 14px;
+            width: 81px;
             height: 24px;
+            display: flex;
+            align-items: center;
+            .icon {
+              width: 24px;
+              height: 24px;
+            }
           }
         }
-        .rec-explain {
-          margin-left: 14px;
-          width: 186px;
+        .more {
+          height: 24px;
+          width: 24px;
+          text-align: center;
+          line-height: 24px;
+          img {
+            height: 100%;
+          }
         }
       }
     }
@@ -377,7 +407,7 @@ export default {
         .txt {
           height:20px;
           font-size:14px;
-          font-weight:600;
+          font-weight:bold;
           line-height:20px;
           color:rgba(102,102,102,1);
           margin-right: 132px;
@@ -400,14 +430,18 @@ export default {
           .title {
             height:20px;
             font-size:14px;
-            font-weight:600;
+            font-weight:bold;
             line-height:20px;
             color:rgba(51,51,51,1);
             text-align: left;
           }
           .content {
+            margin-top: 5px;
             text-align: left;
             line-height: 18px;
+            font-size:13px;
+            font-weight:300;
+            color:rgba(153,153,153,1);
           }
         }
       }

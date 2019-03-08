@@ -14,8 +14,8 @@ import './assets/css/reset.css'
 import './assets/css/vux-reset.css'
 import { DatetimePlugin, ConfirmPlugin, LoadingPlugin, ToastPlugin } from 'vux'
 
-import VConsole from 'vconsole'
-var vConsole = new VConsole()
+// import VConsole from 'vconsole'
+// var vConsole = new VConsole()
 
 Vue.config.productionTip = false
 

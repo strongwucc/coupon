@@ -14,6 +14,8 @@ let baseRedirectUrl = 'http://' + window.location.host + '/#'
 if (process.env.NODE_ENV === 'development') {
   rootUrl = 'http://47.107.36.169'
   baseUrl = rootUrl + '/conghe/'
+  rootUrl = 'http://localhost:8081'
+  baseUrl = rootUrl + '/shopex/'
   baseRedirectUrl = 'http://' + window.location.host + '/#'
 } else if (process.env.NODE_ENV === 'production') {
   rootUrl = 'http://' + window.location.host

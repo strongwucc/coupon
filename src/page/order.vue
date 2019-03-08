@@ -25,7 +25,7 @@
         <div class="label">手机号</div>
         <div class="content">{{userInfo.mobile}}</div>
       </div>
-      <div class="info">
+      <div class="info" v-if="deliveryInfo.delivery_method === '1'">
         <div class="label">地址</div>
         <div class="content">{{userInfo.addr}}</div>
       </div>
@@ -42,15 +42,21 @@
       <div class="info">
         <div class="label">配送状态</div>
         <div class="content">
-          <template v-if="deliveryInfo.ship_status === '0'">未配送</template>
-          <template v-if="deliveryInfo.ship_status === '1'">已配送</template>
+          <template v-if="deliveryInfo.ship_status === '0'">
+            <template v-if="deliveryInfo.delivery_method === '0'">未提取</template>
+            <template v-else>未配送</template>
+          </template>
+          <template v-if="deliveryInfo.ship_status === '1'">
+            <template v-if="deliveryInfo.delivery_method === '0'">已提取</template>
+            <template v-else>已配送</template>
+          </template>
         </div>
       </div>
-      <div class="info" v-if="deliveryInfo.ship_status === '1'">
+      <div class="info" v-if="deliveryInfo.delivery_method === '1' && deliveryInfo.ship_status === '1'">
         <div class="label">物流名称</div>
         <div class="content">{{deliveryInfo.ship_name}}</div>
       </div>
-      <div class="info" v-if="deliveryInfo.ship_status === '1'">
+      <div class="info" v-if="deliveryInfo.delivery_method === '1' && deliveryInfo.ship_status === '1'">
         <div class="label">运单号</div>
         <div class="content">{{deliveryInfo.logi_no}}</div>
         <div class="action copy-btn" ref="copy" :data-clipboard-text="deliveryInfo.logi_no" @click.stop="copyLink">复制</div>
@@ -151,7 +157,7 @@ export default {
       .title {
         height:22px;
         font-size:16px;
-        font-weight:600;
+        font-weight:bold;
         line-height:22px;
         text-align: left;
         margin-bottom: 11px;
