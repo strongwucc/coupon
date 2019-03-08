@@ -1,7 +1,7 @@
 <template>
   <div class="success-page">
     <div class="msg">恭喜您 兑换成功</div>
-    <div class="logo"><img src="../assets/img/success/icon-success.png"/></div>
+    <div class="logo"><img src="../assets/img/success/iamge-chenggong@2x.png"/></div>
     <div class="review" @click.stop="review">查看订单</div>
     <div class="home" @click.stop="home">返回首页</div>
   </div>
@@ -60,7 +60,7 @@ export default {
     height: 100%;
     background:rgba(255,255,255,1);
     .msg {
-      margin-top: 50px;
+      padding-top: 50px;
       height:33px;
       font-size:24px;
       font-weight:500;
@@ -69,6 +69,10 @@ export default {
     }
     .logo {
       margin-top: 39px;
+      img {
+        width: 315px;
+        height: 179px;
+      }
     }
     .review, .home {
       width: 200px;

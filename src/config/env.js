@@ -12,12 +12,12 @@ let oauthUrl = 'http://wxgw.yklsh.etonepay.com/authorize?etone_id=yt6eb45ebc3375
 let baseRedirectUrl = 'http://' + window.location.host + '/#'
 
 if (process.env.NODE_ENV === 'development') {
-  rootUrl = 'http://localhost:8081'
-  baseUrl = rootUrl + '/shopex/'
+  rootUrl = 'http://47.107.36.169'
+  baseUrl = rootUrl + '/conghe/'
   baseRedirectUrl = 'http://' + window.location.host + '/#'
 } else if (process.env.NODE_ENV === 'production') {
-  rootUrl = 'http://localhost:8081'
-  baseUrl = rootUrl + '/shopex/'
+  rootUrl = 'http://' + window.location.host
+  baseUrl = rootUrl + '/conghe/'
   baseRedirectUrl = 'http://' + window.location.host + '/coupon/#'
 }
 

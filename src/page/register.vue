@@ -216,10 +216,12 @@ export default {
   }
   .register-page {
     height: 100%;
+    background:rgba(255,255,255,1);
     .coupon-image {
       height: 194px;
       img {
         width: 100%;
+        height: 100%;
       }
     }
     .register-form {

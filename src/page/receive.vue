@@ -166,7 +166,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
   @import "../assets/css/common";
   @keyframes myopacity
   {
@@ -186,6 +186,7 @@ export default {
       height: 194px;
       img {
         width: 100%;
+        height: 100%;
       }
     }
     .base-info {
@@ -305,6 +306,9 @@ export default {
         color:rgba(153,153,153,1);
       }
       .content {
+        img {
+          width: 100%;
+        }
       }
     }
     .padding-area {
