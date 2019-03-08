@@ -6,7 +6,7 @@
     <div class="base-info">
       <div class="title">
         <div class="coupon-name">{{info.ticket_name}}</div>
-        <div class="coupon-status">已兑换</div>
+        <div class="coupon-status" v-if="info.status !== '0'">已兑换</div>
       </div>
       <div class="period-validity">
         <div class="label">时间</div>
@@ -14,7 +14,7 @@
       </div>
       <div class="explain-area" v-if="info.ticket_intro || info.pick_intro">
         <div class="label">说明</div>
-        <div class="column">
+        <div class="column" @click.stop="showExplains">
           <div class="content act-explain" v-if="info.ticket_intro">
             <img class="icon" src="../assets/img/receive/icon-biaoqian@2x.png"/>
             <span class="txt">活动说明</span>
@@ -29,8 +29,8 @@
     </div>
     <div class="gifts" v-if="info.status === '0' && info.gifts.length > 0">
       <div class="label">已选</div>
-      <div class="content" v-if="gift">{{gift}}</div>
-      <div class="content" v-else>请选择</div>
+      <div class="content" v-if="gift" @click.stop="showGifts">{{gift}}</div>
+      <div class="content" v-else @click.stop="showGifts">请选择</div>
       <div class="more" @click.stop="showGifts"><img src="../assets/img/receive/icon-more@2x.png"/></div>
     </div>
     <div class="coupon-detail">
@@ -86,7 +86,7 @@
         <div class="list">
           <div class="item" :class="{active: item === gift}" v-for="(item, itemIndex) in info.gifts" :key="itemIndex" @click.stop="checkGift(item)">{{item}}</div>
         </div>
-        <div class="confirm-btn" @click.stop="confirmGift">确定</div>
+        <div class="confirm-btn" @click.stop="confirmGift">确定兑换</div>
       </div>
     </transition>
   </div>
@@ -105,8 +105,7 @@ export default {
       },
       gift: '',
       explainVisible: false,
-      giftVisible: false,
-      isConfirmGift: true
+      giftVisible: false
     }
   },
   computed: {
@@ -121,7 +120,6 @@ export default {
           this.info = res.data.ticket
           if (this.info.gifts.length > 0) {
             this.gift = this.info.gifts[0]
-            this.isConfirmGift = false
           }
         }
       })
@@ -149,24 +147,15 @@ export default {
       this.gift = gift
     },
     receive: function () {
-      if (this.isConfirmGift === false) {
+      if (this.info.gifts.length > 0) {
         this.showGifts()
-        return false
-      }
-      if (this.info.gifts.length > 0 && this.gift === '') {
-        this.$vux.toast.show({
-          type: 'text',
-          text: '请先选择礼品',
-          width: '200px',
-          position: 'middle'
-        })
         return false
       }
       this.$router.push({name: 'register', params: {itemId: this.itemId, gift: this.gift}})
     },
     confirmGift: function () {
       this.giftVisible = false
-      this.isConfirmGift = true
+      this.$router.push({name: 'register', params: {itemId: this.itemId, gift: this.gift}})
     },
     review: function () {
       this.$router.push({name: 'order', params: {itemId: this.itemId}})
