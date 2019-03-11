@@ -232,7 +232,7 @@ export default {
         .content {
           height:18px;
           font-size:13px;
-          font-weight:600;
+          font-weight:400;
           line-height:18px;
           color:rgba(51,51,51,1);
         }
@@ -300,7 +300,7 @@ export default {
         text-align: left;
         height:20px;
         font-size:14px;
-        font-weight:600;
+        font-weight:400;
         line-height:20px;
         color:rgba(51,51,51,1);
       }
@@ -320,7 +320,7 @@ export default {
         margin: 15px;
         height:18px;
         font-size:13px;
-        font-weight:300;
+        font-weight:400;
         line-height:18px;
         color:rgba(153,153,153,1);
       }
@@ -353,7 +353,7 @@ export default {
         .txt {
           height:14px;
           font-size:10px;
-          font-weight:600;
+          font-weight:400;
           line-height:14px;
           color:rgba(102,102,102,1);
         }
@@ -419,7 +419,7 @@ export default {
           .title {
             height:20px;
             font-size:14px;
-            font-weight:bold;
+            font-weight:400;
             line-height:20px;
             color:rgba(51,51,51,1);
             text-align: left;
