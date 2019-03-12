@@ -12,7 +12,7 @@
       </div>
       <div class="info">
         <div class="label">兑换时间</div>
-        <div class="content">{{couponInfo.date_time|toDate}}</div>
+        <div class="content">{{couponInfo.date_time|toDate(4)}}</div>
       </div>
     </div>
     <div class="register-info">
@@ -113,16 +113,16 @@ export default {
         _this.copyElement.on('success', function () {
           _this.$vux.toast.show({
             type: 'text',
-            text: '复制成功！',
-            width: '200px',
+            text: '<span style="font-size: 14px">复制成功！</span>',
+            width: '172px',
             position: 'middle'
           })
         })
         _this.copyElement.on('error', function () {
           _this.$vux.toast.show({
             type: 'text',
-            text: '复制失败！',
-            width: '200px',
+            text: '<span style="font-size: 14px">复制失败！</span>',
+            width: '172px',
             position: 'middle'
           })
         })
@@ -153,23 +153,25 @@ export default {
     height: 100%;
     background:rgba(255,255,255,1);
     .coupon-info, .register-info, .delivery-info {
-      padding: 15px 17px;
+      padding: 15px 17px 0;
       .title {
         height:22px;
         font-size:16px;
-        font-weight:bold;
+        font-weight:400;
         line-height:22px;
         text-align: left;
-        margin-bottom: 11px;
+        margin-bottom: 20px;
+        color:rgba(51,51,51,1);
       }
       .info {
         display: flex;
         justify-content: flex-start;
         align-items: center;
+        margin-bottom: 8px;
         .label {
           width: 78px;
           height:17px;
-          font-size:12px;
+          font-size:14px;
           font-weight:400;
           line-height:17px;
           color:rgba(153,153,153,1);
@@ -178,8 +180,8 @@ export default {
         }
         .content {
           height:18px;
-          font-size:13px;
-          font-weight:600;
+          font-size: 14px;
+          font-weight:400;
           line-height:18px;
           color:rgba(51,51,51,1);
           width: 235px;
@@ -194,6 +196,14 @@ export default {
           color:rgba(254,68,21,1);
         }
       }
+    }
+    .coupon-info:after, .register-info:after {
+      content: '';
+      display: block;
+      width:341px;
+      height:1px;
+      background-color: rgba(240,240,240,1);
+      margin-top: 15px;
     }
     .contact {
       position: fixed;
@@ -213,7 +223,7 @@ export default {
       .txt {
         height:14px;
         font-size:10px;
-        font-weight:500;
+        font-weight:400;
         line-height:14px;
         color:rgba(102,102,102,1);
       }

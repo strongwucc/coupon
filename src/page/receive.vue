@@ -10,7 +10,7 @@
       </div>
       <div class="period-validity">
         <div class="label">时间</div>
-        <div class="content">{{info.time_begin}}—{{info.time_end}}</div>
+        <div class="content">{{info.time_begin}} - {{info.time_end}}</div>
       </div>
       <div class="explain-area" v-if="info.ticket_intro || info.pick_intro">
         <div class="label">说明</div>
@@ -29,9 +29,9 @@
     </div>
     <div class="gifts" v-if="info.status === '0' && info.gifts.length > 0">
       <div class="label">已选</div>
-      <div class="content" v-if="gift" @click.stop="showGifts">{{gift}}</div>
-      <div class="content" v-else @click.stop="showGifts">请选择</div>
-      <div class="more" @click.stop="showGifts"><img src="../assets/img/receive/icon-more@2x.png"/></div>
+      <div class="content" v-if="gift" @click.stop="showGifts('确定', false)">{{gift}}</div>
+      <div class="content" v-else @click.stop="showGifts('确定', false)">请选择</div>
+      <div class="more" @click.stop="showGifts('确定', false)"><img src="../assets/img/receive/icon-more@2x.png"/></div>
     </div>
     <div class="coupon-detail">
       <div class="title">
@@ -86,7 +86,7 @@
         <div class="list">
           <div class="item" :class="{active: item === gift}" v-for="(item, itemIndex) in info.gifts" :key="itemIndex" @click.stop="checkGift(item)">{{item}}</div>
         </div>
-        <div class="confirm-btn" @click.stop="confirmGift">确定兑换</div>
+        <div class="confirm-btn" @click.stop="confirmGift">{{giftButtonTxt}}</div>
       </div>
     </transition>
   </div>
@@ -105,7 +105,9 @@ export default {
       },
       gift: '',
       explainVisible: false,
-      giftVisible: false
+      giftVisible: false,
+      giftButtonTxt: '确定',
+      giftChecked: false
     }
   },
   computed: {
@@ -137,8 +139,10 @@ export default {
     hideExplains: function () {
       this.explainVisible = false
     },
-    showGifts: function () {
+    showGifts: function (txt, checked) {
+      this.giftButtonTxt = txt
       this.giftVisible = true
+      this.giftChecked = checked
     },
     hideGifts: function () {
       this.giftVisible = false
@@ -148,14 +152,16 @@ export default {
     },
     receive: function () {
       if (this.info.gifts.length > 0) {
-        this.showGifts()
+        this.showGifts('确认兑换', true)
         return false
       }
       this.$router.push({name: 'register', params: {itemId: this.itemId, gift: this.gift}})
     },
     confirmGift: function () {
       this.giftVisible = false
-      this.$router.push({name: 'register', params: {itemId: this.itemId, gift: this.gift}})
+      if (this.giftChecked) {
+        this.$router.push({name: 'register', params: {itemId: this.itemId, gift: this.gift}})
+      }
     },
     review: function () {
       this.$router.push({name: 'order', params: {itemId: this.itemId}})
@@ -443,7 +449,7 @@ export default {
         .txt {
           height:20px;
           font-size:14px;
-          font-weight:600;
+          font-weight:400;
           line-height:20px;
           color:rgba(102,102,102,1);
           margin-top: 15px;
@@ -452,7 +458,7 @@ export default {
       .list {
         display: flex;
         justify-content: flex-start;
-        margin-bottom: 17px;
+        margin-bottom: 40px;
         flex-wrap: wrap;
         .item {
           width:86px;
@@ -460,7 +466,7 @@ export default {
           background:rgba(246,246,246,1);
           border-radius:14px;
           font-size:14px;
-          font-weight:600;
+          font-weight:400;
           line-height:28px;
           color:rgba(51,51,51,1);
           margin: 17px 0 0 17px;

@@ -59,16 +59,17 @@ export default {
   .success-page {
     height: 100%;
     background:rgba(255,255,255,1);
+    padding-top: 50px;
     .msg {
-      padding-top: 50px;
+      /*padding-top: 50px;*/
       height:33px;
       font-size:24px;
-      font-weight:500;
+      font-weight:400;
       line-height:33px;
       color:rgba(254,185,4,1);
     }
     .logo {
-      margin-top: 39px;
+      margin-top: 20px;
       img {
         width: 315px;
         height: 179px;
@@ -83,7 +84,7 @@ export default {
       font-weight:400;
     }
     .review {
-      margin: 61px auto 0;
+      margin: 31px auto 0;
       background-color: #638940;
       color:rgba(255,255,255,1);
     }

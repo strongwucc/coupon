@@ -10,15 +10,15 @@
       </div>
       <div class="owner_name">
         <div class="label">姓名</div>
-        <div class="input"><input v-model="owner_name"/></div>
+        <div class="input" :class="{current: inputName === 'name'}"><input v-model="owner_name" @focus="inputFocus('name')"/></div>
       </div>
       <div class="owner_mobile">
         <div class="label">手机号</div>
-        <div class="input"><input type="tel" v-model="owner_mobile"/></div>
+        <div class="input" :class="{current: inputName === 'mobile'}"><input type="tel" v-model="owner_mobile" @focus="inputFocus('mobile')"/></div>
       </div>
       <div class="delivery_method">
         <div class="label">领取方式</div>
-        <div class="input" @click.stop="showMethods">
+        <div class="input" @click.stop="showMethods" :class="{current: inputName === 'delivery_method'}">
           <span v-if="delivery_method === 0">自提</span>
           <span v-else>配送</span>
           <img src="../assets/img/receive/icon-xiala@2x.png"/>
@@ -26,11 +26,11 @@
       </div>
       <div class="addr" v-show="delivery_method === 1">
         <div class="label">配送地址</div>
-        <div class="input"><input v-model="addr"/></div>
+        <div class="input" :class="{current: inputName === 'addr'}"><input v-model="addr" @focus="inputFocus('addr')"/></div>
       </div>
       <div class="mark_text">
         <div class="label">备注</div>
-        <div class="input"><input v-model="mark_text"/></div>
+        <div class="input" :class="{current: inputName === 'mark_text'}"><input v-model="mark_text" @focus="inputFocus('mark_text')"/></div>
       </div>
       <div class="button" @click.stop="register">
         提交
@@ -71,7 +71,8 @@ export default {
       addr: '',
       mark_text: '',
       methodVisible: false,
-      loading: false
+      loading: false,
+      inputName: ''
     }
   },
   computed: {
@@ -90,8 +91,8 @@ export default {
         } else {
           this.$vux.toast.show({
             type: 'text',
-            text: res.msg,
-            width: '200px',
+            text: '<span style="font-size: 14px">' + res.msg + '</span>',
+            width: '172px',
             position: 'middle'
           })
           return false
@@ -100,8 +101,8 @@ export default {
     } else {
       this.$vux.toast.show({
         type: 'text',
-        text: '礼品不存在',
-        width: '200px',
+        text: '<span style="font-size: 14px">礼品不存在</span>',
+        width: '172px',
         position: 'middle'
       })
       return false
@@ -116,6 +117,7 @@ export default {
       this.methodVisible = false
     },
     showMethods: function () {
+      this.inputName = 'delivery_method'
       this.methodVisible = true
     },
     checkMethod: function (deliveryMethod) {
@@ -126,8 +128,8 @@ export default {
       if (this.owner_name === '') {
         this.$vux.toast.show({
           type: 'text',
-          text: '请输入姓名',
-          width: '200px',
+          text: '<span style="font-size: 14px">请输入姓名</span>',
+          width: '172px',
           position: 'middle'
         })
         return false
@@ -136,8 +138,8 @@ export default {
       if (Valid.check_mobile(this.owner_mobile) === false) {
         this.$vux.toast.show({
           type: 'text',
-          text: '手机号格式不正确',
-          width: '200px',
+          text: '<span style="font-size: 14px">请输入手机号码</span>',
+          width: '172px',
           position: 'middle'
         })
         return false
@@ -146,8 +148,8 @@ export default {
       if (this.delivery_method === 1 && this.addr === '') {
         this.$vux.toast.show({
           type: 'text',
-          text: '请输入配送地址',
-          width: '200px',
+          text: '<span style="font-size: 14px">请输入配送地址</span>',
+          width: '172px',
           position: 'middle'
         })
         return false
@@ -179,7 +181,7 @@ export default {
           // this.$vux.toast.show({
           //   type: 'text',
           //   text: '恭喜您，兑换成功',
-          //   width: '200px',
+          //   width: '172px',
           //   position: 'middle'
           // })
           // let vm = this
@@ -189,13 +191,16 @@ export default {
         } else {
           this.$vux.toast.show({
             type: 'text',
-            text: res.msg,
-            width: '200px',
+            text: '<span style="font-size: 14px">' + res.msg + '</span>',
+            width: '172px',
             position: 'middle'
           })
           return false
         }
       })
+    },
+    inputFocus: function (inputName) {
+      this.inputName = inputName
     }
   }
 }
@@ -237,7 +242,7 @@ export default {
         .label {
           height:20px;
           font-size:14px;
-          font-weight:500;
+          font-weight:400;
           line-height:20px;
           color:rgba(102,102,102,1);
         }
@@ -252,10 +257,13 @@ export default {
             width: 251px;
             height: 100%;
             font-size:14px;
-            font-weight:500;
+            font-weight:400;
             line-height:20px;
             color:rgba(51,51,51,1);
           }
+        }
+        .current {
+          border:1px solid rgba(124,162,89,1);
         }
       }
       .delivery_method {
@@ -272,14 +280,17 @@ export default {
           span {
             height:20px;
             font-size:14px;
-            font-weight:500;
+            font-weight:400;
             line-height:20px;
             color:rgba(51,51,51,1);
           }
           img {
-            width: 24px;
-            height: 24px;
+            width: 16px;
+            height: 16px;
           }
+        }
+        .current {
+          border:1px solid rgba(124,162,89,1);
         }
       }
       .title {
@@ -320,7 +331,7 @@ export default {
         .txt {
           height:20px;
           font-size:14px;
-          font-weight:600;
+          font-weight:400;
           line-height:20px;
           color:rgba(102,102,102,1);
           margin-top: 15px;
@@ -338,7 +349,7 @@ export default {
       .list {
         display: flex;
         justify-content: flex-start;
-        margin-bottom: 17px;
+        margin-bottom: 40px;
         flex-wrap: wrap;
         .item {
           width:86px;
@@ -346,7 +357,7 @@ export default {
           background:rgba(246,246,246,1);
           border-radius:14px;
           font-size:14px;
-          font-weight:600;
+          font-weight:400;
           line-height:28px;
           color:rgba(51,51,51,1);
           margin: 17px 0 0 17px;
