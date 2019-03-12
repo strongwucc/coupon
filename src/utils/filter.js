@@ -45,11 +45,6 @@ Vue.filter('toDate', function (number, is_hfs) {
   var H = (date.getHours() < 10 ? '0' + (date.getHours()) : date.getHours())
   var F = (date.getMinutes() < 10 ? '0' + (date.getMinutes()) : date.getMinutes())
   var S = (date.getSeconds() < 10 ? '0' + (date.getSeconds()) : date.getSeconds())
-  var m = (date.getMonth() + 1)
-  var d = (date.getDate())
-  var h = (date.getHours())
-  var f = (date.getMinutes())
-  var s = (date.getSeconds())
 
   if (is_hfs === 1) {
     return (Y + '-' + M + '-' + D)
@@ -58,7 +53,7 @@ Vue.filter('toDate', function (number, is_hfs) {
   } else if (is_hfs === 3) {
     return (Y + '-' + M + '-' + D + ' ' + H + ':' + F)
   } else if (is_hfs === 4) {
-    return (Y + '.' + m + '.' + d + ' ' + h + ':' + f)
+    return (Y + '.' + M + '.' + D + ' ' + D + ':' + F)
   }
 
   return (Y + '-' + M + '-' + D + ' ' + H + ':' + F + ':' + S)

@@ -92,7 +92,6 @@ export default {
           this.$vux.toast.show({
             type: 'text',
             text: '<span style="font-size: 14px">' + res.msg + '</span>',
-            width: '172px',
             position: 'middle'
           })
           return false
@@ -102,7 +101,6 @@ export default {
       this.$vux.toast.show({
         type: 'text',
         text: '<span style="font-size: 14px">礼品不存在</span>',
-        width: '172px',
         position: 'middle'
       })
       return false
@@ -129,7 +127,15 @@ export default {
         this.$vux.toast.show({
           type: 'text',
           text: '<span style="font-size: 14px">请输入姓名</span>',
-          width: '172px',
+          position: 'middle'
+        })
+        return false
+      }
+
+      if (this.owner_mobile === '') {
+        this.$vux.toast.show({
+          type: 'text',
+          text: '<span style="font-size: 14px">请输入手机号码</span>',
           position: 'middle'
         })
         return false
@@ -138,8 +144,7 @@ export default {
       if (Valid.check_mobile(this.owner_mobile) === false) {
         this.$vux.toast.show({
           type: 'text',
-          text: '<span style="font-size: 14px">请输入手机号码</span>',
-          width: '172px',
+          text: '<span style="font-size: 14px">手机号格式不正确</span>',
           position: 'middle'
         })
         return false
@@ -149,7 +154,6 @@ export default {
         this.$vux.toast.show({
           type: 'text',
           text: '<span style="font-size: 14px">请输入配送地址</span>',
-          width: '172px',
           position: 'middle'
         })
         return false
@@ -192,7 +196,6 @@ export default {
           this.$vux.toast.show({
             type: 'text',
             text: '<span style="font-size: 14px">' + res.msg + '</span>',
-            width: '172px',
             position: 'middle'
           })
           return false
@@ -307,6 +310,7 @@ export default {
       }
       .button {
         margin-top: 51px;
+        margin-bottom: 22px;
         width: 341px;
         height: 50px;
         border-radius: 25px;

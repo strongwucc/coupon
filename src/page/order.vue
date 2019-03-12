@@ -114,7 +114,6 @@ export default {
           _this.$vux.toast.show({
             type: 'text',
             text: '<span style="font-size: 14px">复制成功！</span>',
-            width: '172px',
             position: 'middle'
           })
         })
@@ -122,7 +121,6 @@ export default {
           _this.$vux.toast.show({
             type: 'text',
             text: '<span style="font-size: 14px">复制失败！</span>',
-            width: '172px',
             position: 'middle'
           })
         })
